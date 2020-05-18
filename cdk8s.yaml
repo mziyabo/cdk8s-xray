@@ -1,0 +1,4 @@
+language: typescript
+app: node ./out/main.js
+imports:
+  - k8s
