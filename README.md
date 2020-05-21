@@ -1,36 +1,39 @@
-## AWS XRay chart built with [cdk8s](cdk8s.io/)
-cdk8s defined chart for AWS XRay, a service for tracing and code instrumentation.
+## AWS X-Ray [cdk8s](cdk8s.io/) construct
 
-### Installation
+[![NPM Version](https://img.shields.io/npm/v/cdk8s-xray.svg)](https://npmjs.org/package/cdk8s-xray) 
 
-**Prerequisites**
 
-- EKS NodeGroup requires [AWSXrayDaemonWriteAccess](https://docs.aws.amazon.com/xray/latest/devguide/security_iam_id-based-policy-examples.html)
+**Cluster Prerequisites**
+
+ Attach [AWSXrayDaemonWriteAccess](https://docs.aws.amazon.com/xray/latest/devguide/security_iam_id-based-policy-examples.html) to worker node instance profile
 
     `aws iam attach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess`
 
+### Installation and Usage
 
-To build and deploy the XRay chart:
+Install `cdk8s-xray` construct: `npm install cdk8s-xray` and add below to chart
 
-``` PowerShell
-npm run compile
-npm run synth
-kubectl apply -f ./dist/*.k8s.yaml
+``` nodejs
+import { XRayApp, DaemonProtocol, IChartConfig } from 'cdk8s-xray'
+
+// inside your chart:
+let config: IChartConfig = {
+    image: "rnzdocker1/eks-workshop-x-ray-daemon:dbada4c77e6ae10ecf5a7b1c5864aa6522d9fb02",
+    ns: "default",
+    daemon: {
+        daemonProtocol: DaemonProtocol.UDP,
+        port: 2000,
+        logLevel: "prod"
+    }
+}
+
+new XRayApp(this, 'prod', config);
 ```
 
 ### Features
 
-**Resources**
-
-|resource|
----------
-|Service Account|
-|Service|
-|Deployment|
-|ConfigMap|
-|ClusterRoleBinding|
-
 ### Release Notes:
+Initial Release, Contributions welcome
 
 ### License:
 Apache-2.0

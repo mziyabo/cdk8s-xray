@@ -1,27 +1,70 @@
 {
-  "name": "xrayk8s",
+  "name": "cdk8s-xray",
   "version": "1.0.0",
-  "main": "main.js",
-  "types": "main.ts",
+  "main": "./out/xrayapp.js",
+  "types": "./out/xrayapp.d.ts",
+  "author": {
+    "name": "mziyabo",
+    "email": "mziyabo@live.com"
+  },
   "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/mziyabo/cdk8s-xray",
+    "type": "git"
+  },
+  "bugs": {
+    "url": "https://github.com/mziyabo/cdk8s-xray/issues"
+  },
+  "homepage": "https://github.com/mziyabo/cdk8s-xray#readme",
   "private": true,
   "scripts": {
     "import": "cdk8s import",
     "synth": "cdk8s synth",
-    "compile": "tsc",
+    "compile": "jsii",
     "watch": "tsc -w",
-    "test": "echo ok",
-    "build": "npm run compile && npm run test && npm run synth",
+    "build": "npm run compile && npm run test",
     "upgrade": "npm i cdk8s@latest cdk8s-cli@latest",
-    "upgrade:next": "npm i cdk8s@next cdk8s-cli@next"
+    "upgrade:next": "npm i cdk8s@next cdk8s-cli@next",
+    "package": "jsii-pacmak",
+    "test": "tsc && jest"
   },
   "dependencies": {
-    "cdk8s": "^0.21.0",
     "constructs": "^2.0.1"
   },
   "devDependencies": {
+    "@types/jest": "^25.2.3",
     "@types/node": "^14.0.1",
+    "cdk8s": "^0.21.0",
     "cdk8s-cli": "^0.21.0",
+    "jest": "^26.0.1",
+    "jsii": "^1.5.0",
+    "jsii-pacmak": "^1.5.0",
+    "jsii-release": "^0.1.5",
     "typescript": "^3.9.2"
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "moduleFileExtensions": [
+      "js"
+    ]
+  },
+  "jsii": {
+    "outdir": "dist",
+    "targets": {
+      "python": {
+        "distName": "cdk8s-xray",
+        "module": "cdk8s-xray"
+      }
+    },
+    "tsc": {
+      "outDir": "out",
+      "rootDir": "src",
+      "declaration": false
+    }
+  },
+  "peerDependencies": {
+    "constructs": "^2.0.1"
   }
 }

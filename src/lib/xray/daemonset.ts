@@ -1,23 +1,26 @@
 import { Construct } from 'constructs';
 import { DaemonSet, Container } from '../../imports/k8s';
+import { IChartConfig, DaemonProtocol } from '../../xrayapp';
 
-export class XRDaemonSet extends Construct {
+export class DaemonSetConstruct extends Construct {
+    config: IChartConfig;
 
-    constructor(scope: Construct, name: string) {
+    constructor(scope: Construct, name: string, config: IChartConfig) {
         super(scope, name)
 
-        this.CreateDaemonSet(this);
+        this.config = config;
     }
 
-    CreateDaemonSet(scope: Construct): DaemonSet {
+    CreateDaemonSet(): DaemonSet {
 
         let appLabel = {
-            "app": "xray-daemon"
+            "app": "xray-daemon",
+            "cdk8s/chart": "xray"
         };
 
         let daemonContainer: Container = {
             name: "xray-daemon",
-            image: "rnzdocker1/eks-workshop-x-ray-daemon:dbada4c77e6ae10ecf5a7b1c5864aa6522d9fb02",
+            image: this.config.image,
             imagePullPolicy: "Always",
             command: ["/usr/bin/xray", "-c", "/aws/xray/config.yaml"],
             resources: {
@@ -27,20 +30,18 @@ export class XRDaemonSet extends Construct {
             },
             ports: [{
                 name: "xray-ingest",
-                containerPort: 2000,
-                hostPort: 2000,
-                protocol: "UDP"
+                containerPort: this.config.daemon.port,
+                hostPort: this.config.daemon.port,
+                protocol: DaemonProtocol[this.config.daemon.daemonProtocol]
             }],
             volumeMounts: [{
                 name: "config-volume",
                 mountPath: "/aws/xray",
                 readOnly: true
             }]
-
-
         };
 
-        return new DaemonSet(scope, "xray-daemon", {
+        return new DaemonSet(this, "xray-daemon", {
             spec: {
                 updateStrategy: {
                     type: "RollingUpdate"

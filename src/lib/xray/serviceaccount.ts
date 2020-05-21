@@ -1,26 +1,28 @@
 import { Construct } from 'constructs';
 import { ServiceAccount } from '../../imports/k8s';
-import { appConfig } from '../shared/appconfig';
+import { IChartConfig } from '../../xrayapp'
 
-export class XRServiceAccount extends Construct {
+export class ServiceAccountConstruct extends Construct {
 
-    constructor(scope: Construct, name: string) {
+    config: IChartConfig;
+
+    constructor(scope: Construct, name: string, config: IChartConfig) {
         super(scope, name)
-
-        this.CreateServiceAccount(scope);
+        this.config = config;
     }
 
-    CreateServiceAccount(scope: Construct): ServiceAccount {
+    CreateServiceAccount(): ServiceAccount {
 
         let appLabel = {
-            "app": appConfig.app.name
+            "app": "xray-daemon",
+            "cdk8s/chart": "xray"
         };
 
-        return new ServiceAccount(scope, "xray-daemon", {
+        return new ServiceAccount(this, "xray-daemon", {
             metadata: {
                 name: "xray-daemon",
                 labels: appLabel,
-                namespace: appConfig.namespace
+                namespace: this.config.ns
             }
         });
     }

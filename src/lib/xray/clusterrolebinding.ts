@@ -1,17 +1,20 @@
 import { Construct } from 'constructs';
 import { ClusterRoleBinding } from '../../imports/k8s';
+import { IChartConfig } from '../../xrayapp'
 
-export class XRClusterRoleBinding extends Construct {
+export class ClusterRoleBindingConstruct extends Construct {
 
-    constructor(scope: Construct, name: string) {
+    config: IChartConfig;
+
+    constructor(scope: Construct, name: string, config: IChartConfig) {
         super(scope, name)
 
-        this.CreateClusterRoleBinding(this);
+        this.config = config;
     }
 
-    CreateClusterRoleBinding(scope: Construct): ClusterRoleBinding {
+    CreateClusterRoleBinding(): ClusterRoleBinding {
 
-        return new ClusterRoleBinding(scope, "xray-daemon", {
+        return new ClusterRoleBinding(this, "xray-daemon", {
             roleRef: {
                 apiGroup: "rbac.authorization.k8s.io",
                 kind: "ClusterRole",
@@ -20,7 +23,7 @@ export class XRClusterRoleBinding extends Construct {
             subjects: [{
                 kind: "ServiceAccount",
                 name: "xray-daemon",
-                namespace: "default"
+                namespace: this.config.ns
             }]
         });
     }

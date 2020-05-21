@@ -2,5 +2,3 @@
 *.js
 node_modules
 dist/
-out/
-!test/*.js

@@ -1,33 +1,33 @@
 import { Construct } from 'constructs';
 import { Service } from '../../imports/k8s';
-import { appConfig } from '../shared/appconfig';
+import { IChartConfig, DaemonProtocol } from '../../xrayapp'
 
-export class XRService extends Construct {
+export class ServiceConstruct extends Construct {
+    config: IChartConfig;
 
-    constructor(scope: Construct, name: string) {
+    constructor(scope: Construct, name: string, config: IChartConfig) {
         super(scope, name)
 
-        this.CreateService(this);
+        this.config = config;
     }
 
-    CreateService(scope: Construct): Service {
+    CreateService(): Service {
 
-        return new Service(scope, "xray-service", {
+        return new Service(this, "xray-service", {
             metadata: {
-                labels: {
-                    "name": "xray-service"
-                }
+                name: "xray-service"
             },
             spec: {
                 selector: {
-                    "app": "xray-daemon"
+                    "app": "xray-daemon",
+                    "cdk8s/chart": "xray"
                 },
                 clusterIP: "None",
                 ports: [
                     {
                         name: "incoming",
-                        port: appConfig.daemonSettings.UDPPort,
-                        protocol: "UDP"
+                        port: this.config.daemon.port,
+                        protocol: DaemonProtocol[this.config.daemon.daemonProtocol]
                     }
                 ]
             }

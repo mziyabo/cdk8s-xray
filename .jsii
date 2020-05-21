@@ -1,0 +1,226 @@
+{
+  "author": {
+    "email": "mziyabo@live.com",
+    "name": "mziyabo",
+    "roles": [
+      "author"
+    ]
+  },
+  "dependencies": {
+    "constructs": "^2.0.1"
+  },
+  "dependencyClosure": {
+    "constructs": {
+      "targets": {
+        "dotnet": {
+          "namespace": "Constructs",
+          "packageId": "Constructs"
+        },
+        "java": {
+          "maven": {
+            "artifactId": "constructs",
+            "groupId": "software.constructs"
+          },
+          "package": "software.constructs"
+        },
+        "js": {
+          "npm": "constructs"
+        },
+        "python": {
+          "distName": "constructs",
+          "module": "constructs"
+        }
+      }
+    }
+  },
+  "description": "cdk8s-xray",
+  "homepage": "https://github.com/mziyabo/cdk8s-xray#readme",
+  "jsiiVersion": "1.5.0 (build 46538f8)",
+  "license": "Apache-2.0",
+  "name": "cdk8s-xray",
+  "readme": {
+    "markdown": "## AWS X-Ray [cdk8s](cdk8s.io/) construct\n\n[![NPM Version](https://img.shields.io/npm/v/cdk8s-xray.svg)](https://npmjs.org/package/cdk8s-xray)\n\n\n**Cluster Prerequisites**\n\n Attach [AWSXrayDaemonWriteAccess](https://docs.aws.amazon.com/xray/latest/devguide/security_iam_id-based-policy-examples.html) to worker node instance profile\n\n    `aws iam attach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess`\n\n### Installation and Usage\n\nInstall `cdk8s-xray` construct: `npm install cdk8s-xray` and add below to chart\n\n``` nodejs\nimport { XRayApp, DaemonProtocol, IChartConfig } from 'cdk8s-xray'\n\n// inside your chart:\nlet config: IChartConfig = {\n    image: \"rnzdocker1/eks-workshop-x-ray-daemon:dbada4c77e6ae10ecf5a7b1c5864aa6522d9fb02\",\n    ns: \"default\",\n    daemon: {\n        daemonProtocol: DaemonProtocol.UDP,\n        port: 2000,\n        logLevel: \"prod\"\n    }\n}\n\nnew XRayApp(this, 'prod', config);\n```\n\n### Features\n\n### Release Notes:\nInitial Release, Contributions welcome\n\n### License:\nApache-2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mziyabo/cdk8s-xray"
+  },
+  "schema": "jsii/0.10.0",
+  "targets": {
+    "js": {
+      "npm": "cdk8s-xray"
+    },
+    "python": {
+      "distName": "cdk8s-xray",
+      "module": "cdk8s-xray"
+    }
+  },
+  "types": {
+    "cdk8s-xray.DaemonProtocol": {
+      "assembly": "cdk8s-xray",
+      "fqn": "cdk8s-xray.DaemonProtocol",
+      "kind": "enum",
+      "locationInModule": {
+        "filename": "src\\xrayapp.ts",
+        "line": 45
+      },
+      "members": [
+        {
+          "name": "UDP"
+        },
+        {
+          "name": "TCP"
+        }
+      ],
+      "name": "DaemonProtocol"
+    },
+    "cdk8s-xray.DaemonSettings": {
+      "assembly": "cdk8s-xray",
+      "datatype": true,
+      "fqn": "cdk8s-xray.DaemonSettings",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "src\\xrayapp.ts",
+        "line": 26
+      },
+      "name": "DaemonSettings",
+      "properties": [
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "Protocol to use for AWS X-Ray Daemon."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "src\\xrayapp.ts",
+            "line": 31
+          },
+          "name": "daemonProtocol",
+          "type": {
+            "fqn": "cdk8s-xray.DaemonProtocol"
+          }
+        },
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "Port number for AWS X-Ray Daemon."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "src\\xrayapp.ts",
+            "line": 36
+          },
+          "name": "port",
+          "type": {
+            "primitive": "number"
+          }
+        },
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "Log level for AWS X-Ray Daemon."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "src\\xrayapp.ts",
+            "line": 41
+          },
+          "name": "logLevel",
+          "optional": true,
+          "type": {
+            "primitive": "string"
+          }
+        }
+      ]
+    },
+    "cdk8s-xray.IChartConfig": {
+      "assembly": "cdk8s-xray",
+      "fqn": "cdk8s-xray.IChartConfig",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "src\\xrayapp.ts",
+        "line": 8
+      },
+      "name": "IChartConfig",
+      "properties": [
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "AWS X-Ray Daemon Settings."
+          },
+          "locationInModule": {
+            "filename": "src\\xrayapp.ts",
+            "line": 23
+          },
+          "name": "daemon",
+          "type": {
+            "fqn": "cdk8s-xray.DaemonSettings"
+          }
+        },
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "Image to use for AWS X-Ray Daemon."
+          },
+          "locationInModule": {
+            "filename": "src\\xrayapp.ts",
+            "line": 18
+          },
+          "name": "image",
+          "type": {
+            "primitive": "string"
+          }
+        },
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "Namespace to deploy chart resources into."
+          },
+          "locationInModule": {
+            "filename": "src\\xrayapp.ts",
+            "line": 13
+          },
+          "name": "ns",
+          "type": {
+            "primitive": "string"
+          }
+        }
+      ]
+    },
+    "cdk8s-xray.XRayApp": {
+      "assembly": "cdk8s-xray",
+      "base": "constructs.Construct",
+      "fqn": "cdk8s-xray.XRayApp",
+      "initializer": {
+        "parameters": [
+          {
+            "name": "scope",
+            "type": {
+              "fqn": "constructs.Construct"
+            }
+          },
+          {
+            "name": "name",
+            "type": {
+              "primitive": "string"
+            }
+          },
+          {
+            "name": "config",
+            "type": {
+              "fqn": "cdk8s-xray.IChartConfig"
+            }
+          }
+        ]
+      },
+      "kind": "class",
+      "locationInModule": {
+        "filename": "src\\xrayapp.ts",
+        "line": 50
+      },
+      "name": "XRayApp"
+    }
+  },
+  "version": "1.0.0",
+  "fingerprint": "s9rM6g8dTR4/ICjonGpA3tsHHiYw1ElZdpBPigOA/Ug="
+}

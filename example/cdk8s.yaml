@@ -1,4 +1,4 @@
 language: typescript
-app: node ./out/xrayapp.js
+app: node main.js
 imports:
   - k8s
