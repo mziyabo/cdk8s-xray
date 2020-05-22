@@ -1,5 +1,5 @@
-## AWS X-Ray [cdk8s](cdk8s.io/) construct
-Provides a cdk8s Construct to synthesize [AWS X-Ray](https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html) api-resources on Amazon EKS clusters
+## cdks8-xray
+Provides a cdk8s Construct to synthesize [AWS X-Ray](https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html) api-resources on Amazon EKS.
 
 ![Build](https://github.com/mziyabo/cdk8s-xray/workflows/Build/badge.svg?branch=master) 
 [![NPM Version](https://img.shields.io/npm/v/cdk8s-xray.svg)](https://npmjs.org/package/cdk8s-xray) 

@@ -1,6 +1,6 @@
 {
   "name": "cdk8s-xray",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "./out/xrayapp.js",
   "types": "./out/xrayapp.d.ts",
   "author": {
@@ -16,7 +16,7 @@
     "url": "https://github.com/mziyabo/cdk8s-xray/issues"
   },
   "homepage": "https://github.com/mziyabo/cdk8s-xray#readme",
-  "private": true,
+  "private": false,
   "scripts": {
     "import": "cdk8s import",
     "synth": "cdk8s synth",
@@ -28,10 +28,9 @@
     "package": "jsii-pacmak",
     "test": "tsc && jest"
   },
-  "dependencies": {
-    "constructs": "^2.0.1"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "constructs": "^2.0.1",
     "@types/jest": "^25.2.3",
     "@types/node": "^14.0.1",
     "cdk8s": "^0.21.0",
@@ -62,7 +61,12 @@
       "outDir": "out",
       "rootDir": "src",
       "declaration": false
-    }
+    },
+    "exclude": [
+      "node_modules",
+      "out\\**\\*.ts",
+      "example"
+    ]
   },
   "peerDependencies": {
     "constructs": "^2.0.1"
