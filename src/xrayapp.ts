@@ -5,22 +5,22 @@ import { DaemonSetConstruct } from './lib/xray/daemonset';
 import { ServiceConstruct } from './lib/xray/service';
 import { ServiceAccountConstruct } from './lib/xray/serviceaccount';
 
-export interface IChartConfig {
+export interface XRayConfig {
 
     /**
      * Namespace to deploy chart resources into
      */
-    ns: string,
+    readonly ns: string,
 
     /**
      * Image to use for AWS X-Ray Daemon
      */
-    image: string
+    readonly image: string
 
     /**
      * AWS X-Ray Daemon Settings
      */
-    daemon: DaemonSettings
+    readonly daemon: DaemonSettings
 }
 
 export interface DaemonSettings {
@@ -50,13 +50,13 @@ export enum DaemonProtocol {
 export class XRayApp extends Construct {
 
 
-    constructor(scope: Construct, name: string, config: IChartConfig) {
+    constructor(scope: Construct, name: string, config: XRayConfig) {
         super(scope, name);
 
-        new ConfigMapConstruct(this, "configmap", config).CreateConfigMap();
         new ClusterRoleBindingConstruct(this, "clusterrolebinding", config).CreateClusterRoleBinding();
         new ServiceConstruct(this, "service", config).CreateService();
         new ServiceAccountConstruct(this, "serviceaccount", config).CreateServiceAccount();
         new DaemonSetConstruct(this, "daemonset", config).CreateDaemonSet();
+        new ConfigMapConstruct(this, "configmap", config).CreateConfigMap();
     }
 }

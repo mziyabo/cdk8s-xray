@@ -39,7 +39,7 @@
   "license": "Apache-2.0",
   "name": "cdk8s-xray",
   "readme": {
-    "markdown": "## AWS X-Ray [cdk8s](cdk8s.io/) construct\n\n[![NPM Version](https://img.shields.io/npm/v/cdk8s-xray.svg)](https://npmjs.org/package/cdk8s-xray)\n\n\n**Cluster Prerequisites**\n\n Attach [AWSXrayDaemonWriteAccess](https://docs.aws.amazon.com/xray/latest/devguide/security_iam_id-based-policy-examples.html) to worker node instance profile\n\n    `aws iam attach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess`\n\n### Installation and Usage\n\nInstall `cdk8s-xray` construct: `npm install cdk8s-xray` and add below to chart\n\n``` nodejs\nimport { XRayApp, DaemonProtocol, IChartConfig } from 'cdk8s-xray'\n\n// inside your chart:\nlet config: IChartConfig = {\n    image: \"rnzdocker1/eks-workshop-x-ray-daemon:dbada4c77e6ae10ecf5a7b1c5864aa6522d9fb02\",\n    ns: \"default\",\n    daemon: {\n        daemonProtocol: DaemonProtocol.UDP,\n        port: 2000,\n        logLevel: \"prod\"\n    }\n}\n\nnew XRayApp(this, 'prod', config);\n```\n\n### Features\n\n### Release Notes:\nInitial Release, Contributions welcome\n\n### License:\nApache-2.0"
+    "markdown": "## AWS X-Ray [cdk8s](cdk8s.io/) construct\nProvides a cdk8s Construct to synthesize [AWS X-Ray](https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html) api-resources on Amazon EKS clusters\n\n![Build](https://github.com/mziyabo/cdk8s-xray/workflows/Build/badge.svg?branch=master)\n[![NPM Version](https://img.shields.io/npm/v/cdk8s-xray.svg)](https://npmjs.org/package/cdk8s-xray)\n\n\n### Installation and Usage\n\nInstall `cdk8s-xray` construct: `npm install cdk8s-xray` and add below to chart\n\n``` nodejs\nimport { XRayApp, DaemonProtocol, XRayConfig } from 'cdk8s-xray'\n\n// inside your chart:\nlet config: XRayConfig = {\n    image: \"rnzdocker1/eks-workshop-x-ray-daemon:dbada4c77e6ae10ecf5a7b1c5864aa6522d9fb02\",\n    ns: \"default\",\n    daemon: {\n        daemonProtocol: DaemonProtocol.UDP,\n        port: 2000,\n        logLevel: \"prod\"\n    }\n}\n\nnew XRayApp(this, 'prod', config);\n```\n\n### Features:\n- Adapted from the EKS Workshop X-Ray [DaemonSet](https://eksworkshop.com/intermediate/245_x-ray/x-ray-daemon/).\n\n### Release Notes:\nInitial Release, Contributions welcome\n\n### License:\nApache-2.0"
   },
   "repository": {
     "type": "git",
@@ -133,60 +133,6 @@
         }
       ]
     },
-    "cdk8s-xray.IChartConfig": {
-      "assembly": "cdk8s-xray",
-      "fqn": "cdk8s-xray.IChartConfig",
-      "kind": "interface",
-      "locationInModule": {
-        "filename": "src\\xrayapp.ts",
-        "line": 8
-      },
-      "name": "IChartConfig",
-      "properties": [
-        {
-          "abstract": true,
-          "docs": {
-            "summary": "AWS X-Ray Daemon Settings."
-          },
-          "locationInModule": {
-            "filename": "src\\xrayapp.ts",
-            "line": 23
-          },
-          "name": "daemon",
-          "type": {
-            "fqn": "cdk8s-xray.DaemonSettings"
-          }
-        },
-        {
-          "abstract": true,
-          "docs": {
-            "summary": "Image to use for AWS X-Ray Daemon."
-          },
-          "locationInModule": {
-            "filename": "src\\xrayapp.ts",
-            "line": 18
-          },
-          "name": "image",
-          "type": {
-            "primitive": "string"
-          }
-        },
-        {
-          "abstract": true,
-          "docs": {
-            "summary": "Namespace to deploy chart resources into."
-          },
-          "locationInModule": {
-            "filename": "src\\xrayapp.ts",
-            "line": 13
-          },
-          "name": "ns",
-          "type": {
-            "primitive": "string"
-          }
-        }
-      ]
-    },
     "cdk8s-xray.XRayApp": {
       "assembly": "cdk8s-xray",
       "base": "constructs.Construct",
@@ -208,7 +154,7 @@
           {
             "name": "config",
             "type": {
-              "fqn": "cdk8s-xray.IChartConfig"
+              "fqn": "cdk8s-xray.XRayConfig"
             }
           }
         ]
@@ -219,8 +165,66 @@
         "line": 50
       },
       "name": "XRayApp"
+    },
+    "cdk8s-xray.XRayConfig": {
+      "assembly": "cdk8s-xray",
+      "datatype": true,
+      "fqn": "cdk8s-xray.XRayConfig",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "src\\xrayapp.ts",
+        "line": 8
+      },
+      "name": "XRayConfig",
+      "properties": [
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "AWS X-Ray Daemon Settings."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "src\\xrayapp.ts",
+            "line": 23
+          },
+          "name": "daemon",
+          "type": {
+            "fqn": "cdk8s-xray.DaemonSettings"
+          }
+        },
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "Image to use for AWS X-Ray Daemon."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "src\\xrayapp.ts",
+            "line": 18
+          },
+          "name": "image",
+          "type": {
+            "primitive": "string"
+          }
+        },
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "Namespace to deploy chart resources into."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "src\\xrayapp.ts",
+            "line": 13
+          },
+          "name": "ns",
+          "type": {
+            "primitive": "string"
+          }
+        }
+      ]
     }
   },
   "version": "1.0.0",
-  "fingerprint": "s9rM6g8dTR4/ICjonGpA3tsHHiYw1ElZdpBPigOA/Ug="
+  "fingerprint": "Y1n2XPko1o2uk32PZTRGwu6keMFgGXgis9xqnJyB/qw="
 }

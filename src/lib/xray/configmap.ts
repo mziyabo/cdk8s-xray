@@ -1,11 +1,11 @@
 import { Construct } from 'constructs';
 import { ConfigMap } from '../../imports/k8s';
-import { IChartConfig } from '../../xrayapp'
+import { XRayConfig } from '../../xrayapp'
 
 export class ConfigMapConstruct extends Construct {
-    config: IChartConfig;
+    config: XRayConfig;
 
-    constructor(scope: Construct, name: string, config: IChartConfig) {
+    constructor(scope: Construct, name: string, config: XRayConfig) {
         super(scope, name)
 
         this.config = config;

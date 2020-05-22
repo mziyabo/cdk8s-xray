@@ -1,13 +1,13 @@
 
 import { App, Chart } from 'cdk8s';
-import { XRayApp, DaemonProtocol, IChartConfig } from "../out/xrayapp";
+import { XRayApp, DaemonProtocol, XRayConfig } from "../out/xrayapp";
 import { Construct } from "constructs";
 
 class AWSXRayChart extends Chart {
     constructor(scope: Construct, name: string, ) {
         super(scope, name);
 
-        let config: IChartConfig = {
+        let config: XRayConfig = {
             image: "rnzdocker1/eks-workshop-x-ray-daemon:dbada4c77e6ae10ecf5a7b1c5864aa6522d9fb02",
             ns: "default",
             daemon: {

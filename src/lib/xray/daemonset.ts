@@ -1,11 +1,11 @@
 import { Construct } from 'constructs';
 import { DaemonSet, Container } from '../../imports/k8s';
-import { IChartConfig, DaemonProtocol } from '../../xrayapp';
+import { XRayConfig, DaemonProtocol } from '../../xrayapp';
 
 export class DaemonSetConstruct extends Construct {
-    config: IChartConfig;
+    config: XRayConfig;
 
-    constructor(scope: Construct, name: string, config: IChartConfig) {
+    constructor(scope: Construct, name: string, config: XRayConfig) {
         super(scope, name)
 
         this.config = config;

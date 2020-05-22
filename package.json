@@ -1,6 +1,6 @@
 {
   "name": "cdk8s-xray",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "main": "./out/xrayapp.js",
   "types": "./out/xrayapp.d.ts",
   "author": {
