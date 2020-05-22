@@ -37,6 +37,8 @@ new XRayApp(this, 'prod', config);
 
     <details>
     <summary>manifest.k8s.yaml</summary>
+
+    ```yaml
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
@@ -172,6 +174,7 @@ new XRayApp(this, 'prod', config);
     metadata:
     name: xray-config
 
+    ```
     </details>
 
 ### Release Notes:
