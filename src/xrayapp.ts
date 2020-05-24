@@ -6,7 +6,6 @@ import { ServiceConstruct } from './lib/xray/service';
 import { ServiceAccountConstruct } from './lib/xray/serviceaccount';
 
 export interface XRayConfig {
-
     /**
      * Namespace to deploy chart resources into
      */
@@ -39,7 +38,6 @@ export interface DaemonSettings {
      * Log level for AWS X-Ray Daemon
      */
     readonly logLevel?: string
-
 }
 
 export enum DaemonProtocol {
@@ -48,8 +46,6 @@ export enum DaemonProtocol {
 }
 
 export class XRayApp extends Construct {
-
-
     constructor(scope: Construct, name: string, config: XRayConfig) {
         super(scope, name);
 

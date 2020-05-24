@@ -3,7 +3,6 @@ import { ClusterRoleBinding } from '../../imports/k8s';
 import { XRayConfig } from '../../xrayapp'
 
 export class ClusterRoleBindingConstruct extends Construct {
-
     config: XRayConfig;
 
     constructor(scope: Construct, name: string, config: XRayConfig) {
